@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+">
     <title>Add Book</title>
 </head>
 <body>
 <h1>Add a New Book</h1>
 
-<form th:action="@{/addbook}" method="post">
-    <label for="title">Title:</label>
-    <input th:type="text" id="title" name="title" required><br><br>
+<form th:action="@{/addbook}" method="post" class="form-group">
+    <label for="title" class="form-label">Title:</label>
+    <input th:type="text" id="title" name="title" class="form-control"><br><br>
 
-    <label for="author">Author:</label>
-    <input th:type="text" id="author" name="author" required><br><br>
+    <label for="author" class="form-label">Author:</label>
+    <input th:type="text" id="author" name="author" class="form-control"><br><br>
 
-    <label for="publicationYear">Publication Year:</label>
-    <input th:type="text" id="publicationYear" name="publicationYear" required><br><br>
+    <label for="publicationYear" class="form-label">Publication Year:</label>
+    <input th:type="text" id="publicationYear" name="publicationYear" class="form-control"><br><br>
 
-    <label for="isbn">ISBN:</label>
-    <input th:type="text" id="isbn" name="isbn" required><br><br>
+    <label for="isbn" class="form-label">ISBN:</label>
+    <input th:type="text" id="isbn" name="isbn" class="form-control"><br><br>
 
-    <label for="price">Price:</label>
-    <input th:type="number" id="price" name="price" step="0.01" required><br><br>
+    <label for="price" class="form-label">Price:</label>
+    <input th:type="number" id="price" name="price" step="0.01" class="form-control"><br><br>
 
-    <button type="submit">Add Book</button>
+    <button type="submit" class="btn btn-primary">Add Book</button>
     
 </body>
 </html>

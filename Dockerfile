@@ -3,31 +3,27 @@ FROM eclipse-temurin:17-jdk-focal AS builder
 
 WORKDIR /opt/app
 
-# Kopioi Mavenin asetukset ja projektin metadata
+# Copiază wrapper-ul Maven și pom.xml
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN chmod +x ./mvnw
 
-# Lataa riippuvuudet
+# Descarcă dependințele (layer cache)
 RUN ./mvnw dependency:go-offline
 
-# Kopioi lähdekoodi
+# Copiază codul sursă și build-uiește
 COPY ./src ./src
+RUN ./mvnw clean package -DskipTests
 
-# Buildaa projekti
-RUN ./mvnw clean install -DskipTests
-
-# Kopioi JAR-tiedosto suoraan (ei käytetä find-komentoa)
-RUN cp target/*.jar /opt/app/app.jar
-
-# Runtime-vaihe
+# Runtime-vaihe (Alpine este mult mai mică și sigură)
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /opt/app
 
-# Kopioi buildattu JAR-tiedosto
-COPY --from=builder /opt/app/app.jar /opt/app/app.jar
+# Utilizăm un wildcard care să ignore fișierul .original
+COPY --from=builder /opt/app/target/bookstore-*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]
+# Adăugăm parametri pentru optimizarea memoriei în containere
+ENTRYPOINT ["java", "-jar", "app.jar"]
